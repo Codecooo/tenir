@@ -62,6 +62,8 @@ class _HomePageState extends State<HomePage> {
         page = Placeholder();
     }
 
+    // Bisa diperhatikan cara memakai ScreenInfo.of(context) untuk mendapatkan informasi apakah layar lebar atau tidak. 
+    // Ini digunakan untuk menampilkan NavigationRail di desktop dan NavigationBar di mobile.
     final isWide = ScreenInfo.of(context).isWide;
 
     return Scaffold(
