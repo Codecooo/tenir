@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tenir/ui/transaction/transaction_screen.dart';
 import 'package:tenir/ui/widgets/screen_info.dart';
 
 void main() {
@@ -53,7 +54,7 @@ class _HomePageState extends State<HomePage> {
         page = Placeholder();
         break;
       case 1:
-        page = Placeholder();
+        page = TransactionScreen();
         break;
       case 2:
         page = Placeholder();
