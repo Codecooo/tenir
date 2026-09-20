@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'color': const Color(0xFF2D6A4F),
     },
     {
-      'icon': Icons.camping,
+      'icon': Icons.nature,
       'title': 'Camping Ground',
       'color': const Color(0xFF2D6A4F),
     },
@@ -117,10 +117,18 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 0,
       title: Row(
         children: [
-          Image.asset(
-            'assets/logo.png', // Ganti dengan logo Anda
-            height: 32,
+          Container(
             width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: accentColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(
+              Icons.terrain,
+              color: Colors.white,
+              size: 20,
+            ),
           ),
           const SizedBox(width: 8),
           const Text(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/ui/widgets/screen_info.dart';
-import 'pages/home_screen.dart';
+import 'ui/home/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
                 seedColor: const Color.fromARGB(30, 97, 168, 232),
               ),
             ),
-            home: const HomePage(),
+            home: const HomeScreen(),
           ),
         );
       },
