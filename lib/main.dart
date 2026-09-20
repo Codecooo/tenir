@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/ui/widgets/screen_info.dart';
+import 'pages/home_screen.dart';
 
 void main() {
   runApp(MyApp());
