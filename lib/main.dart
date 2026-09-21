@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tenir/ui/transaction/transaction_screen.dart';
 import 'package:tenir/ui/widgets/screen_info.dart';
 import 'ui/home/home_screen.dart';
+import 'package:tenir/ui/auth/login_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -15,16 +16,25 @@ class MyApp extends StatelessWidget {
     return LayoutBuilder(
       builder: (ctx, constraints) {
         final isWide = constraints.maxWidth > 350;
+
         return ScreenInfo(
           isWide: isWide,
           child: MaterialApp(
             title: 'Tenir',
+
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                 seedColor: const Color.fromARGB(30, 97, 168, 232),
               ),
             ),
-            home: HomePage(),
+
+            // Halaman pertama yang ditampilkan adalah Login
+            home: const LoginPage(),
+
+            // Route untuk berpindah dari Login ke halaman utama
+            routes: {
+              '/home': (context) => const HomePage(),
+            },
           ),
         );
       },
@@ -42,30 +52,40 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var selectedIndex = 0;
   var expanded = false;
-  
+
   @override
   Widget build(BuildContext context) {
     Widget page;
 
-    /// Ini digunakan untuk menampilkan halaman yang sesuai dengan index yang dipilih pada NavigationRail atau NavigationBar. 
-    /// Kalau ingin menambahkan halaman baru, cukup tambahkan case baru di switch statement ini.
-    /// Untuk halaman baru, buat widget baru di folder lib/ui/nama_komponen dan import di sini. Ganti placeholder() dengan widget baru tersebut.
+    /// Ini digunakan untuk menampilkan halaman yang sesuai dengan index
+    /// yang dipilih pada NavigationRail atau NavigationBar.
+    ///
+    /// Kalau ingin menambahkan halaman baru, cukup tambahkan case baru
+    /// di switch statement ini.
+    ///
+    /// Untuk halaman baru, buat widget baru di folder:
+    /// lib/ui/nama_komponen
+    /// kemudian import di bagian atas file ini.
     switch (selectedIndex) {
       case 0:
         page = HomeScreen();
         break;
+
       case 1:
         page = TransactionScreen();
         break;
+
       case 2:
         page = Placeholder();
         break;
+
       default:
         page = Placeholder();
     }
 
-    // Bisa diperhatikan cara memakai ScreenInfo.of(context) untuk mendapatkan informasi apakah layar lebar atau tidak. 
-    // Ini digunakan untuk menampilkan NavigationRail di desktop dan NavigationBar di mobile.
+    // Digunakan untuk mengetahui apakah layar lebar atau tidak.
+    // Layar lebar menggunakan NavigationRail,
+    // sedangkan layar mobile menggunakan NavigationBar.
     final isWide = ScreenInfo.of(context).isWide;
 
     return Scaffold(
@@ -77,17 +97,22 @@ class _HomePageState extends State<HomePage> {
               selectedIndex: selectedIndex,
               extended: expanded,
               minExtendedWidth: 200,
-              onDestinationSelected: (value) => setState(() {
-                selectedIndex = value;
-              }),
+
+              onDestinationSelected: (value) {
+                setState(() {
+                  selectedIndex = value;
+                });
+              },
+
               leading: IconButton(
-                onPressed: () => {
+                onPressed: () {
                   setState(() {
                     expanded = !expanded;
-                  }),
+                  });
                 },
                 icon: const Icon(Icons.menu),
               ),
+
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.home_rounded),
@@ -103,6 +128,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+
           Expanded(
             child: SafeArea(
               child: Container(
@@ -119,9 +145,13 @@ class _HomePageState extends State<HomePage> {
           ? null
           : NavigationBar(
               selectedIndex: selectedIndex,
-              onDestinationSelected: (value) => setState(() {
-                selectedIndex = value;
-              }),
+
+              onDestinationSelected: (value) {
+                setState(() {
+                  selectedIndex = value;
+                });
+              },
+
               destinations: const [
                 NavigationDestination(
                   icon: Icon(Icons.home_rounded),
