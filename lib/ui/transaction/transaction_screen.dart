@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tenir/models/transaction.dart';
 import 'package:tenir/models/transaction_item.dart';
 import 'package:tenir/repositories/transaction_repository.dart';
+import 'package:tenir/ui/transaction/transaction_detail_screen.dart';
 import 'package:tenir/ui/widgets/screen_info.dart';
 import 'package:tenir/ui/widgets/summary_card.dart';
 import 'package:tenir/utils/format.dart';
@@ -17,10 +18,8 @@ class TransactionScreen extends StatefulWidget {
   /// Creates a [TransactionScreen].
   ///
   /// If no [repository] is supplied, it defaults to using [MockTransactionRepository].
-  TransactionScreen({
-    super.key,
-    TransactionRepository? repository,
-  }) : repository = repository ?? MockTransactionRepository();
+  TransactionScreen({super.key, TransactionRepository? repository})
+    : repository = repository ?? MockTransactionRepository();
 
   @override
   State<TransactionScreen> createState() => _TransactionScreenState();
@@ -69,7 +68,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
           // Calculate active hiking bookings (paid or pending payment)
           final activeCount = items.where((item) {
             final status = item.transaction.status;
-            return status == TransactionStatus.paid || status == TransactionStatus.pending;
+            return status == TransactionStatus.paid ||
+                status == TransactionStatus.pending;
           }).length;
 
           return ListView(
@@ -117,9 +117,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
               const SizedBox(height: 12),
 
               // Transaction List Cards
-              ...items.map((item) => _TransactionCard(
-                    item: item,
-                  )),
+              ...items.map((item) => _TransactionCard(item: item)),
             ],
           );
         },
@@ -136,9 +134,7 @@ class _TransactionCard extends StatelessWidget {
   /// The combined model containing transaction, trip, and mountain details.
   final TransactionItem item;
 
-  const _TransactionCard({
-    required this.item,
-  });
+  const _TransactionCard({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +152,13 @@ class _TransactionCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to transaction details screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  TransactionDetailScreen(transactionItem: item),
+            ),
+          );
         },
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -178,7 +180,10 @@ class _TransactionCard extends StatelessWidget {
                   SizedBox(
                     width: 100,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       decoration: BoxDecoration(
                         color: status.color.withAlpha(24),
                         borderRadius: BorderRadius.circular(20),
@@ -228,7 +233,10 @@ class _TransactionCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'ID: ${transaction.id}',
-                      style: TextStyle(fontSize: isWide ? 11 : 8, color: theme.colorScheme.onSurfaceVariant),
+                      style: TextStyle(
+                        fontSize: isWide ? 11 : 8,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                   Text(
@@ -255,10 +263,7 @@ class _DetailRow extends StatelessWidget {
   /// The text content displayed next to the icon.
   final String text;
 
-  const _DetailRow({
-    required this.icon,
-    required this.text,
-  });
+  const _DetailRow({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
