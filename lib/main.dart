@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/ui/transaction/transaction_screen.dart';
 import 'package:tenir/ui/widgets/screen_info.dart';
+import 'ui/home/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
                 seedColor: const Color.fromARGB(30, 97, 168, 232),
               ),
             ),
-            home: const HomePage(),
+            home: HomePage(),
           ),
         );
       },
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     /// Untuk halaman baru, buat widget baru di folder lib/ui/nama_komponen dan import di sini. Ganti placeholder() dengan widget baru tersebut.
     switch (selectedIndex) {
       case 0:
-        page = Placeholder();
+        page = HomeScreen();
         break;
       case 1:
         page = TransactionScreen();
@@ -127,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.receipt_long_rounded),
+                  icon: Icon(Icons.receipt),
                   label: 'Transaksi',
                 ),
                 NavigationDestination(
