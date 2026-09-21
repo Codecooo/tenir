@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/ui/transaction/transaction_screen.dart';
 import 'package:tenir/ui/widgets/screen_info.dart';
+import 'ui/home/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,13 +18,13 @@ class MyApp extends StatelessWidget {
         return ScreenInfo(
           isWide: isWide,
           child: MaterialApp(
-            title: 'Tenir',
+            title: 'Tiket Pendakian',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                 seedColor: const Color.fromARGB(30, 97, 168, 232),
               ),
             ),
-            home: const HomePage(),
+            home: HomeScreen(),
           ),
         );
       },
