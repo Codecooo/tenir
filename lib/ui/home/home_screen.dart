@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/ui/pages/ticket_list_page.dart';
 import 'package:tenir/ui/pages/logistik/logistik_page.dart';
+import 'package:tenir/ui/pages/travel_list_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
         return ScreenInfo(
           isWide: isWide,
           child: MaterialApp(
-            title: 'Tenir',
+            title: 'Tiket Pendakian',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
-                seedColor: const Color.fromARGB(30, 97, 168, 232),
+                seedColor: const Color(0xFF2D6A4F),
               ),
             ),
             home: HomePage(),
@@ -42,12 +42,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var selectedIndex = 0;
   var expanded = false;
-  
+
   @override
   Widget build(BuildContext context) {
     Widget page;
 
-    /// Ini digunakan untuk menampilkan halaman yang sesuai dengan index yang dipilih pada NavigationRail atau NavigationBar. 
+    /// Ini digunakan untuk menampilkan halaman yang sesuai dengan index yang dipilih pada NavigationRail atau NavigationBar.
     /// Kalau ingin menambahkan halaman baru, cukup tambahkan case baru di switch statement ini.
     /// Untuk halaman baru, buat widget baru di folder lib/ui/nama_komponen dan import di sini. Ganti placeholder() dengan widget baru tersebut.
     switch (selectedIndex) {
@@ -64,9 +64,10 @@ class _HomePageState extends State<HomePage> {
         page = Placeholder();
     }
 
-    // Bisa diperhatikan cara memakai ScreenInfo.of(context) untuk mendapatkan informasi apakah layar lebar atau tidak. 
+    // Bisa diperhatikan cara memakai ScreenInfo.of(context) untuk mendapatkan informasi apakah layar lebar atau tidak.
     // Ini digunakan untuk menampilkan NavigationRail di desktop dan NavigationBar di mobile.
     final isWide = ScreenInfo.of(context).isWide;
+    final theme = Theme.of(context);
 
     return Scaffold(
       body: Row(
@@ -117,25 +118,38 @@ class _HomePageState extends State<HomePage> {
       /// Navbar mobile
       bottomNavigationBar: isWide
           ? null
-          : NavigationBar(
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (value) => setState(() {
-                selectedIndex = value;
-              }),
-              destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.home_rounded),
-                  label: 'Home',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.receipt),
-                  label: 'Transaksi',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.person_rounded),
-                  label: 'Profil',
-                ),
-              ],
+          : NavigationBarTheme(
+              data: NavigationBarThemeData(
+                indicatorColor: theme.primaryColor.withAlpha(
+                  30,
+                ), // Soft background pill
+                iconTheme: WidgetStateProperty.resolveWith((states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return IconThemeData(color: theme.primaryColor);
+                  }
+                  return IconThemeData(color: Colors.grey[400]);
+                }),
+              ),
+              child: NavigationBar(
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (value) => setState(() {
+                  selectedIndex = value;
+                }),
+                destinations: const [
+                  NavigationDestination(
+                    icon: Icon(Icons.home_rounded),
+                    label: 'Home',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.receipt),
+                    label: 'Transaksi',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.person_rounded),
+                    label: 'Profil',
+                  ),
+                ],
+              ),
             ),
     );
   }

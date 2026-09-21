@@ -72,6 +72,61 @@ class _TicketListPageState extends State<TicketListPage> {
     return hasilBaru;
   }
 
+  final List<String> regions = [
+    'SEMUA PROVINSI',
+    'JAWA TIMUR',
+    'JAWA TENGAH',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    hasilPencarian = sampleMountains;
+  }
+
+  void cariGunung(String teks) {
+    List<Mountain> tampung = [];
+
+    if (teks.isEmpty) {
+      tampung = sampleMountains;
+    } else {
+      for (var mountain in sampleMountains) {
+        String namaGunung = mountain.name.toLowerCase();
+        if (namaGunung.contains(teks.toLowerCase())) {
+          tampung.add(mountain);
+        }
+      }
+    }
+
+    // Filter berdasarkan region
+    List<Mountain> hasil = [];
+    for (var mountain in tampung) {
+      if (selectedRegion == 'SEMUA PROVINSI' ||
+          mountain.region.toUpperCase() == selectedRegion) {
+        hasil.add(mountain);
+      }
+    }
+
+    setState(() {
+      hasilPencarian = hasil;
+    });
+  }
+
+  String formatUang(int angka) {
+    String hasil = angka.toString();
+    String hasilBaru = "";
+    int hitung = 0;
+
+    for (int i = hasil.length - 1; i >= 0; i--) {
+      hasilBaru = hasil[i] + hasilBaru;
+      hitung++;
+      if (hitung % 3 == 0 && i != 0) {
+        hasilBaru = "." + hasilBaru;
+      }
+    }
+    return hasilBaru;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
