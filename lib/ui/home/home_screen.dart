@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/ui/pages/ticket_list_page.dart';
+import 'package:tenir/ui/pages/travel_list_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -440,6 +441,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const TicketListPage(),
+                ),
+              );
+            }
+            // ✅ NAVIGATION: Travel & Objek -> TravelListPage
+            else if (title == 'Travel & Objek') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TravelListPage(),
                 ),
               );
             } else {
