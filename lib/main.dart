@@ -18,13 +18,13 @@ class MyApp extends StatelessWidget {
         return ScreenInfo(
           isWide: isWide,
           child: MaterialApp(
-            title: 'Tiket Pendakian',
+            title: 'Tenir',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                 seedColor: const Color.fromARGB(30, 97, 168, 232),
               ),
             ),
-            home: HomeScreen(),
+            home: HomePage(),
           ),
         );
       },
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     /// Untuk halaman baru, buat widget baru di folder lib/ui/nama_komponen dan import di sini. Ganti placeholder() dengan widget baru tersebut.
     switch (selectedIndex) {
       case 0:
-        page = Placeholder();
+        page = HomeScreen();
         break;
       case 1:
         page = TransactionScreen();
@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.receipt_long_rounded),
+                  icon: Icon(Icons.receipt),
                   label: 'Transaksi',
                 ),
                 NavigationDestination(
