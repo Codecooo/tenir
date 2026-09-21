@@ -4,10 +4,7 @@ import 'package:tenir/models/ticket_model.dart';
 class TicketDetailPage extends StatefulWidget {
   final Mountain mountain;
 
-  const TicketDetailPage({
-    Key? key,
-    required this.mountain,
-  }) : super(key: key);
+  const TicketDetailPage({Key? key, required this.mountain}) : super(key: key);
 
   @override
   State<TicketDetailPage> createState() => _TicketDetailPageState();
@@ -21,18 +18,130 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   bool isWeekend = false;
   int quantity = 1;
 
+  // ===== DATE PICKER =====
+  DateTime? tanggalMasuk;
+  DateTime? tanggalKeluar;
+
+  String formatUang(int angka) {
+    String hasil = angka.toString();
+    String hasilBaru = "";
+    int hitung = 0;
+
+    for (int i = hasil.length - 1; i >= 0; i--) {
+      hasilBaru = hasil[i] + hasilBaru;
+      hitung++;
+      if (hitung % 3 == 0 && i != 0) {
+        hasilBaru = "." + hasilBaru;
+      }
+    }
+    return hasilBaru;
+  }
+
+  String formatTanggal(DateTime? date) {
+    if (date == null) return '-';
+    return '${date.day}/${date.month}/${date.year}';
+  }
+
+  Future<void> _selectDateMasuk() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025, 12, 31),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: primaryColor,
+              onPrimary: Colors.white,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != tanggalMasuk) {
+      setState(() {
+        tanggalMasuk = picked;
+        // Reset tanggal keluar jika lebih awal dari tanggal masuk
+        if (tanggalKeluar != null && tanggalKeluar!.isBefore(tanggalMasuk!)) {
+          tanggalKeluar = null;
+        }
+      });
+    }
+  }
+
+  Future<void> _selectDateKeluar() async {
+    if (tanggalMasuk == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Pilih tanggal masuk terlebih dahulu')),
+      );
+      return;
+    }
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: tanggalMasuk!.add(const Duration(days: 1)),
+      firstDate: tanggalMasuk!.add(const Duration(days: 1)),
+      lastDate: DateTime(2025, 12, 31),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: primaryColor,
+              onPrimary: Colors.white,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != tanggalKeluar) {
+      setState(() {
+        tanggalKeluar = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text(widget.mountain.name),
+        title: Text(widget.mountain.name, style: TextStyle(color: Colors.white),),
         elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ===== GAMBAR GUNUNG =====
+            Image.network(
+              widget.mountain.imageUrl,
+              height: 400,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, progress) {
+                if (progress == null) return child;
+                return Container(
+                  height: 400,
+                  color: Colors.grey[300],
+                  child: const Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: 400,
+                  color: Colors.grey[300],
+                  child: Icon(Icons.landscape, size: 80, color: primaryColor),
+                );
+              },
+            ),
+
             // ===== HEADER WITH DESCRIPTION =====
             Container(
               padding: const EdgeInsets.all(16),
@@ -51,18 +160,11 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(
-                        Icons.location_on,
-                        size: 16,
-                        color: Colors.grey,
-                      ),
+                      Icon(Icons.location_on, size: 16, color: Colors.grey),
                       const SizedBox(width: 4),
                       Text(
                         widget.mountain.location,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                       ),
                     ],
                   ),
@@ -100,6 +202,146 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                       const SizedBox(width: 12),
                       _buildTypeButton('WNA'),
                     ],
+                  ),
+                ],
+              ),
+            ),
+
+            const Divider(),
+
+            // ===== TANGGAL MASUK =====
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Pos Perizinan Masuk',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  GestureDetector(
+                    onTap: _selectDateMasuk,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: primaryColor),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Tanggal Masuk',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                tanggalMasuk == null
+                                    ? 'Pilih tanggal'
+                                    : formatTanggal(tanggalMasuk),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            Icons.calendar_today,
+                            color: primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const Divider(),
+
+            // ===== TANGGAL KELUAR =====
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Pos Perizinan Keluar',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  GestureDetector(
+                    onTap: _selectDateKeluar,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: tanggalMasuk == null
+                              ? Colors.grey[300]!
+                              : primaryColor,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Tanggal Keluar',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                tanggalKeluar == null
+                                    ? 'Pilih tanggal'
+                                    : formatTanggal(tanggalKeluar),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: tanggalMasuk == null
+                                      ? Colors.grey
+                                      : primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            Icons.calendar_today,
+                            color: tanggalMasuk == null
+                                ? Colors.grey[300]
+                                : primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -212,13 +454,10 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                       children: [
                         const Text(
                           'Harga per orang:',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.black87,
-                          ),
+                          style: TextStyle(fontSize: 13, color: Colors.black87),
                         ),
                         Text(
-                          'Rp ${_getPrice()}',
+                          'Rp ${formatUang(_getPrice())}',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -240,7 +479,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                           ),
                         ),
                         Text(
-                          'Rp ${(_getPrice() * quantity).toStringAsFixed(0)}',
+                          'Rp ${formatUang((_getPrice() * quantity).toInt())}',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -263,10 +502,20 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
+                    if (tanggalMasuk == null || tanggalKeluar == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Silahkan pilih tanggal masuk dan tanggal keluar'),
+                        ),
+                      );
+                      return;
+                    }
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Pesan $quantity tiket untuk ${widget.mountain.name} sebesar Rp ${(_getPrice() * quantity).toStringAsFixed(0)}',
+                          'Pesan $quantity tiket untuk ${widget.mountain.name}\nTanggal: ${formatTanggal(tanggalMasuk)} - ${formatTanggal(tanggalKeluar)}\nTotal: Rp ${formatUang((_getPrice() * quantity).toInt())}',
                         ),
                       ),
                     );

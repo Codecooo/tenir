@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/ui/pages/ticket_list_page.dart';
+import 'package:tenir/ui/pages/logistik/logistik_page.dart';
+import 'package:tenir/ui/pages/travel_list_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -46,11 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Camping Ground',
       'color': const Color(0xFF2D6A4F),
     },
-    {
-      'icon': Icons.event,
-      'title': 'Event',
-      'color': const Color(0xFF2D6A4F),
-    },
+    {'icon': Icons.event, 'title': 'Event', 'color': const Color(0xFF2D6A4F)},
     {
       'icon': Icons.restaurant,
       'title': 'Eat & Stay',
@@ -59,22 +57,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<Map<String, dynamic>> hikeModes = [
-    {
-      'icon': Icons.emergency,
-      'title': 'SOS',
-    },
-    {
-      'icon': Icons.cloud,
-      'title': 'Cuaca',
-    },
-    {
-      'icon': Icons.newspaper,
-      'title': 'News',
-    },
-    {
-      'icon': Icons.map,
-      'title': 'Tmaps',
-    },
+    {'icon': Icons.emergency, 'title': 'SOS'},
+    {'icon': Icons.cloud, 'title': 'Cuaca'},
+    {'icon': Icons.newspaper, 'title': 'News'},
+    {'icon': Icons.map, 'title': 'Tmaps'},
   ];
 
   @override
@@ -121,11 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: accentColor,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(
-              Icons.terrain,
-              color: Colors.white,
-              size: 20,
-            ),
+            child: const Icon(Icons.terrain, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -155,10 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                constraints: const BoxConstraints(
-                  minWidth: 18,
-                  minHeight: 18,
-                ),
+                constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
                 child: const Text(
                   '4',
                   style: TextStyle(
@@ -188,10 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                constraints: const BoxConstraints(
-                  minWidth: 18,
-                  minHeight: 18,
-                ),
+                constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
                 child: const Text(
                   '9+',
                   style: TextStyle(
@@ -235,11 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: accentColor,
                 borderRadius: BorderRadius.circular(25),
               ),
-              child: const Icon(
-                Icons.star,
-                color: Colors.white,
-                size: 30,
-              ),
+              child: const Icon(Icons.star, color: Colors.white, size: 30),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -374,11 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: const Icon(
-                  Icons.hiking,
-                  size: 60,
-                  color: Colors.white,
-                ),
+                child: const Icon(Icons.hiking, size: 60, color: Colors.white),
               ),
             ),
           ],
@@ -438,14 +406,16 @@ class _HomeScreenState extends State<HomeScreen> {
             if (title == 'Tiket Masuk') {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const TicketListPage(),
-                ),
+                MaterialPageRoute(builder: (context) => const TicketListPage()),
+              );
+            } else if (title == 'Sewa Alat & Logistik') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LogistikPage()),
               );
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Tap: $title')),
-              );
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text('Tap: $title')));
             }
           },
           borderRadius: BorderRadius.circular(12),
@@ -459,11 +429,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 28,
-                ),
+                child: Icon(icon, color: color, size: 28),
               ),
               const SizedBox(height: 12),
               Padding(
@@ -505,10 +471,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 8),
           const Text(
             'Pendakian lebih aman dan nyaman',
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.grey,
-            ),
+            style: TextStyle(fontSize: 13, color: Colors.grey),
           ),
           const SizedBox(height: 16),
           GridView.builder(
@@ -534,10 +497,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildHikeModeCard({
-    required IconData icon,
-    required String title,
-  }) {
+  Widget _buildHikeModeCard({required IconData icon, required String title}) {
     return Container(
       decoration: BoxDecoration(
         color: cardBg,
@@ -554,19 +514,14 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Tap: $title')),
-            );
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Tap: $title')));
           },
           borderRadius: BorderRadius.circular(12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                color: primaryColor,
-                size: 32,
-              ),
+              Icon(icon, color: primaryColor, size: 32),
               const SizedBox(height: 8),
               Text(
                 title,
