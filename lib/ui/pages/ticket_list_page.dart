@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/models/ticket_model.dart';
+
 import 'ticket_detail_page.dart';
 
 class TicketListPage extends StatefulWidget {
@@ -20,11 +21,7 @@ class _TicketListPageState extends State<TicketListPage> {
   TextEditingController controllerSearch = TextEditingController();
   String selectedRegion = 'SEMUA PROVINSI';
 
-  final List<String> regions = [
-    'SEMUA PROVINSI',
-    'JAWA TIMUR',
-    'JAWA TENGAH',
-  ];
+  final List<String> regions = ['SEMUA PROVINSI', 'JAWA TIMUR', 'JAWA TENGAH'];
 
   @override
   void initState() {
@@ -85,10 +82,7 @@ class _TicketListPageState extends State<TicketListPage> {
         centerTitle: true,
         title: const Text(
           "Pesan Tiket Masuk",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       body: Column(
@@ -121,7 +115,10 @@ class _TicketListPageState extends State<TicketListPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: cardBg,
                     borderRadius: BorderRadius.circular(20),
@@ -136,7 +133,9 @@ class _TicketListPageState extends State<TicketListPage> {
                         cariGunung(controllerSearch.text);
                       });
                     },
-                    items: regions.map<DropdownMenuItem<String>>((String value) {
+                    items: regions.map<DropdownMenuItem<String>>((
+                      String value,
+                    ) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -153,7 +152,8 @@ class _TicketListPageState extends State<TicketListPage> {
           // ===== LIST GUNUNG =====
           hasilPencarian.isEmpty
               ? const Expanded(
-                  child: Center(child: Text("Gunung tidak ditemukan")))
+                  child: Center(child: Text("Gunung tidak ditemukan")),
+                )
               : Expanded(
                   child: ListView.builder(
                     itemCount: hasilPencarian.length,
@@ -194,15 +194,34 @@ class _TicketListPageState extends State<TicketListPage> {
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12),
                                 ),
-                                child: Container(
-                                  height: 200,
+                                child: Image.network(
+                                  gunung.imageUrl,
+                                  height: 450,
                                   width: double.infinity,
-                                  color: Colors.grey[300],
-                                  child: Icon(
-                                    Icons.landscape,
-                                    size: 80,
-                                    color: primaryColor,
-                                  ),
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (context, child, progress) {
+                                    if (progress == null) return child;
+                                    return Container(
+                                      height: 450,
+                                      color: Colors.grey[300],
+                                      child: const Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      height: 450,
+                                      color: Colors.grey[300],
+                                      child: Icon(
+                                        Icons.landscape,
+                                        size: 80,
+                                        color: primaryColor,
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
 
@@ -358,7 +377,8 @@ class _TicketListPageState extends State<TicketListPage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   TicketDetailPage(
-                                                      mountain: gunung),
+                                                    mountain: gunung,
+                                                  ),
                                             ),
                                           );
                                         },
@@ -367,8 +387,7 @@ class _TicketListPageState extends State<TicketListPage> {
                                         ),
                                         child: const Text(
                                           "Pesan Tiket",
-                                          style: TextStyle(
-                                              color: Colors.white),
+                                          style: TextStyle(color: Colors.white),
                                         ),
                                       ),
                                     ),

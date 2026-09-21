@@ -4,10 +4,7 @@ import 'package:tenir/models/ticket_model.dart';
 class TicketDetailPage extends StatefulWidget {
   final Mountain mountain;
 
-  const TicketDetailPage({
-    Key? key,
-    required this.mountain,
-  }) : super(key: key);
+  const TicketDetailPage({Key? key, required this.mountain}) : super(key: key);
 
   @override
   State<TicketDetailPage> createState() => _TicketDetailPageState();
@@ -120,6 +117,31 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ===== GAMBAR GUNUNG =====
+            Image.network(
+              widget.mountain.imageUrl,
+              height: 400,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, progress) {
+                if (progress == null) return child;
+                return Container(
+                  height: 400,
+                  color: Colors.grey[300],
+                  child: const Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: 400,
+                  color: Colors.grey[300],
+                  child: Icon(Icons.landscape, size: 80, color: primaryColor),
+                );
+              },
+            ),
+
             // ===== HEADER WITH DESCRIPTION =====
             Container(
               padding: const EdgeInsets.all(16),
@@ -138,18 +160,11 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(
-                        Icons.location_on,
-                        size: 16,
-                        color: Colors.grey,
-                      ),
+                      Icon(Icons.location_on, size: 16, color: Colors.grey),
                       const SizedBox(width: 4),
                       Text(
                         widget.mountain.location,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                       ),
                     ],
                   ),
@@ -439,10 +454,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                       children: [
                         const Text(
                           'Harga per orang:',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.black87,
-                          ),
+                          style: TextStyle(fontSize: 13, color: Colors.black87),
                         ),
                         Text(
                           'Rp ${formatUang(_getPrice())}',
