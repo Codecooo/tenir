@@ -3,8 +3,6 @@ import 'package:tenir/ui/transaction/transaction_screen.dart';
 import 'package:tenir/ui/widgets/screen_info.dart';
 import 'ui/home/home_screen.dart';
 
-import 'ui/home/home_screen.dart';
-
 void main() {
   runApp(MyApp());
 }

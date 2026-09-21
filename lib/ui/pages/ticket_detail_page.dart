@@ -113,7 +113,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text(widget.mountain.name),
+        title: Text(widget.mountain.name, style: TextStyle(color: Colors.white),),
         elevation: 0,
       ),
       body: SingleChildScrollView(
