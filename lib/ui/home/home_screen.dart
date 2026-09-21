@@ -1,119 +1,72 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  // ===== COLOR SCHEME =====
-  // Sesuaikan warna di sini!
-  final Color primaryColor = const Color(0xFF2D6A4F); // Hijau gelap
-  final Color accentColor = const Color(0xFFFFA500); // Orange
-  final Color lightBg = const Color(0xFFF5F5F5); // Abu-abu terang
-  final Color cardBg = Colors.white;
-
-  final List<Map<String, dynamic>> categories = [
-    {
-      'icon': Icons.terrain,
-      'title': 'Tiket Masuk',
-      'color': const Color(0xFF2D6A4F),
-    },
-    {
-      'icon': Icons.directions_car,
-      'title': 'Travel & Objek',
-      'color': const Color(0xFF2D6A4F),
-    },
-    {
-      'icon': Icons.person,
-      'title': 'Porter & Guide',
-      'color': const Color(0xFF2D6A4F),
-    },
-    {
-      'icon': Icons.backpack,
-      'title': 'Sewa Alat & Logistik',
-      'color': const Color(0xFF2D6A4F),
-    },
-    {
-      'icon': Icons.location_on,
-      'title': 'Private & Open Trip',
-      'color': const Color(0xFF2D6A4F),
-    },
-    {
-      'icon': Icons.nature,
-      'title': 'Camping Ground',
-      'color': const Color(0xFF2D6A4F),
-    },
-    {
-      'icon': Icons.event,
-      'title': 'Event',
-      'color': const Color(0xFF2D6A4F),
-    },
-    {
-      'icon': Icons.restaurant,
-      'title': 'Eat & Stay',
-      'color': const Color(0xFF2D6A4F),
-    },
+  final List<Map<String, dynamic>> categories = const [
+    {'icon': Icons.terrain, 'title': 'Tiket Masuk'},
+    {'icon': Icons.directions_car, 'title': 'Travel & Objek'},
+    {'icon': Icons.person, 'title': 'Porter & Guide'},
+    {'icon': Icons.backpack, 'title': 'Sewa Alat & Logistik'},
+    {'icon': Icons.location_on, 'title': 'Private & Open Trip'},
+    {'icon': Icons.nature, 'title': 'Camping Ground'},
+    {'icon': Icons.event, 'title': 'Event'},
+    {'icon': Icons.restaurant, 'title': 'Eat & Stay'},
   ];
 
-  final List<Map<String, dynamic>> hikeModes = [
-    {
-      'icon': Icons.emergency,
-      'title': 'SOS',
-    },
-    {
-      'icon': Icons.cloud,
-      'title': 'Cuaca',
-    },
-    {
-      'icon': Icons.newspaper,
-      'title': 'News',
-    },
-    {
-      'icon': Icons.map,
-      'title': 'Tmaps',
-    },
+  final List<Map<String, dynamic>> hikeModes = const [
+    {'icon': Icons.emergency, 'title': 'SOS'},
+    {'icon': Icons.cloud, 'title': 'Cuaca'},
+    {'icon': Icons.newspaper, 'title': 'News'},
+    {'icon': Icons.map, 'title': 'Tmaps'},
   ];
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: lightBg,
-      appBar: _buildAppBar(),
+      backgroundColor: colorScheme.surfaceContainerLowest,
+      appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
             // === Point Pendaki Card ===
-            _buildPointPendakiCard(),
+            _buildPointPendakiCard(context),
 
             // === Greeting Section ===
-            _buildGreetingSection(),
+            _buildGreetingSection(context),
 
             // === Banner Section ===
-            _buildBannerSection(),
+            _buildBannerSection(context),
 
             // === Categories Grid ===
-            _buildCategoriesGrid(),
+            _buildCategoriesGrid(context),
 
             // === Hike Mode Section ===
-            _buildHikeModeSection(),
+            _buildHikeModeSection(context),
 
             const SizedBox(height: 20),
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
 
   // ===== APP BAR =====
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return AppBar(
-      backgroundColor: primaryColor,
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
       elevation: 0,
       title: Row(
         children: [
@@ -121,21 +74,20 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: accentColor,
+              color: colorScheme.tertiary,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.terrain,
-              color: Colors.white,
+              color: colorScheme.onTertiary,
               size: 20,
             ),
           ),
           const SizedBox(width: 8),
-          const Text(
+          Text(
             'TIKET PENDAKIAN',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colorScheme.onPrimary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -146,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             IconButton(
               icon: const Icon(Icons.shopping_cart),
-              color: Colors.white,
+              color: colorScheme.onPrimary,
               onPressed: () {},
             ),
             Positioned(
@@ -155,17 +107,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
-                  color: Colors.red,
+                  color: colorScheme.error,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 constraints: const BoxConstraints(
                   minWidth: 18,
                   minHeight: 18,
                 ),
-                child: const Text(
+                child: Text(
                   '4',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: colorScheme.onError,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
@@ -179,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             IconButton(
               icon: const Icon(Icons.notifications),
-              color: Colors.white,
+              color: colorScheme.onPrimary,
               onPressed: () {},
             ),
             Positioned(
@@ -188,17 +140,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
-                  color: Colors.red,
+                  color: colorScheme.error,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 constraints: const BoxConstraints(
                   minWidth: 18,
                   minHeight: 18,
                 ),
-                child: const Text(
+                child: Text(
                   '9+',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: colorScheme.onError,
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
@@ -213,16 +165,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // ===== POINT PENDAKI CARD =====
-  Widget _buildPointPendakiCard() {
+  Widget _buildPointPendakiCard(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Container(
         decoration: BoxDecoration(
-          color: cardBg,
+          color: colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: colorScheme.shadow.withAlpha(20),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -235,12 +190,12 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: accentColor,
+                color: colorScheme.tertiary,
                 borderRadius: BorderRadius.circular(25),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.star,
-                color: Colors.white,
+                color: colorScheme.onTertiary,
                 size: 30,
               ),
             ),
@@ -251,19 +206,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     'Point Pendaki',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
+                  Text(
                     'Dapatkan diskon dengan merawat ekosistem di area pendakian',
-                    style: TextStyle(
-                      fontSize: 13,
+                    style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: colorScheme.onSurface,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -278,7 +231,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // ===== GREETING SECTION =====
-  Widget _buildGreetingSection() {
+  Widget _buildGreetingSection(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -286,10 +242,9 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             'Halo Rafi..., mau mendaki kemana besok?',
-            style: TextStyle(
-              fontSize: 18,
+            style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 16),
@@ -299,7 +254,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // ===== BANNER SECTION =====
-  Widget _buildBannerSection() {
+  Widget _buildBannerSection(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
@@ -308,7 +266,10 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           gradient: LinearGradient(
-            colors: [primaryColor, accentColor],
+            colors: [
+              colorScheme.primary,
+              colorScheme.tertiary,
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -323,26 +284,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     'SEWA',
-                    style: TextStyle(
-                      fontSize: 24,
+                    style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: accentColor,
+                      color: colorScheme.onTertiary,
                     ),
                   ),
                   Text(
                     'PERLENGKAPAN',
-                    style: TextStyle(
-                      fontSize: 24,
+                    style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: accentColor,
+                      color: colorScheme.onTertiary,
                     ),
                   ),
                   Text(
                     'PENDAKIAN',
-                    style: TextStyle(
-                      fontSize: 20,
+                    style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: colorScheme.onPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -352,15 +310,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: accentColor,
+                      color: colorScheme.tertiaryContainer,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Text(
+                    child: Text(
                       'YANG LEBIH EFISIEN',
-                      style: TextStyle(
-                        fontSize: 12,
+                      style: theme.textTheme.labelSmall?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: colorScheme.onTertiaryContainer,
                       ),
                     ),
                   ),
@@ -374,13 +331,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
+                  color: colorScheme.onPrimary.withAlpha(25),
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.hiking,
                   size: 60,
-                  color: Colors.white,
+                  color: colorScheme.onPrimary,
                 ),
               ),
             ),
@@ -391,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // ===== CATEGORIES GRID =====
-  Widget _buildCategoriesGrid() {
+  Widget _buildCategoriesGrid(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: GridView.builder(
@@ -407,9 +364,9 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           final category = categories[index];
           return _buildCategoryCard(
+            context: context,
             icon: category['icon'],
             title: category['title'],
-            color: category['color'],
           );
         },
       ),
@@ -417,17 +374,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildCategoryCard({
+    required BuildContext context,
     required IconData icon,
     required String title,
-    required Color color,
   }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       decoration: BoxDecoration(
-        color: cardBg,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: colorScheme.shadow.withAlpha(15),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -437,7 +397,6 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            // Handle category tap
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Tap: $title')),
             );
@@ -450,12 +409,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   icon,
-                  color: color,
+                  color: colorScheme.onPrimaryContainer,
                   size: 28,
                 ),
               ),
@@ -465,10 +424,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 12,
+                  style: theme.textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                    color: colorScheme.onSurface,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -482,26 +440,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // ===== HIKE MODE SECTION =====
-  Widget _buildHikeModeSection() {
+  Widget _buildHikeModeSection(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Hike Mode',
-            style: TextStyle(
-              fontSize: 18,
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Pendakian lebih aman dan nyaman',
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.grey,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: 16),
@@ -518,6 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) {
               final hike = hikeModes[index];
               return _buildHikeModeCard(
+                context: context,
                 icon: hike['icon'],
                 title: hike['title'],
               );
@@ -529,16 +489,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildHikeModeCard({
+    required BuildContext context,
     required IconData icon,
     required String title,
   }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       decoration: BoxDecoration(
-        color: cardBg,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: colorScheme.shadow.withAlpha(15),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -558,68 +522,21 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Icon(
                 icon,
-                color: primaryColor,
+                color: colorScheme.primary,
                 size: 32,
               ),
               const SizedBox(height: 8),
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 12,
+                style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+                  color: colorScheme.onSurface,
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  // ===== BOTTOM NAVIGATION BAR =====
-  Widget _buildBottomNavBar() {
-    return BottomNavigationBar(
-      backgroundColor: Colors.white,
-      type: BottomNavigationBarType.fixed,
-      currentIndex: _selectedIndex,
-      selectedItemColor: primaryColor,
-      unselectedItemColor: Colors.grey[400],
-      onTap: (index) {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-            color: _selectedIndex == 0 ? primaryColor : Colors.grey[400],
-          ),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.receipt,
-            color: _selectedIndex == 1 ? primaryColor : Colors.grey[400],
-          ),
-          label: 'Transaksi',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.chat,
-            color: _selectedIndex == 2 ? primaryColor : Colors.grey[400],
-          ),
-          label: 'Percakapan',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person,
-            color: _selectedIndex == 3 ? primaryColor : Colors.grey[400],
-          ),
-          label: 'Profil',
-        ),
-      ],
     );
   }
 }

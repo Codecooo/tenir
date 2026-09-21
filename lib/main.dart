@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
                 seedColor: const Color.fromARGB(30, 97, 168, 232),
               ),
             ),
-            home: const HomeScreen(),
+            home: const HomePage(),
           ),
         );
       },
@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     Widget page;
 
     /// Ini digunakan untuk menampilkan halaman yang sesuai dengan index yang dipilih pada NavigationRail atau NavigationBar. 
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     /// Untuk halaman baru, buat widget baru di folder lib/ui/nama_komponen dan import di sini. Ganti placeholder() dengan widget baru tersebut.
     switch (selectedIndex) {
       case 0:
-        page = Placeholder();
+        page = HomeScreen();
         break;
       case 1:
         page = Placeholder();
@@ -115,27 +116,36 @@ class _HomePageState extends State<HomePage> {
 
       /// Navbar mobile
       bottomNavigationBar: isWide
-          ? null
-          : NavigationBar(
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (value) => setState(() {
-                selectedIndex = value;
-              }),
-              destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.home_rounded),
-                  label: 'Home',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.receipt_long_rounded),
-                  label: 'Transaksi',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.person_rounded),
-                  label: 'Profil',
-                ),
-              ],
+    ? null
+    : NavigationBar(
+        selectedIndex: selectedIndex,
+        onDestinationSelected: (value) => setState(() {
+          selectedIndex = value;
+        }),
+        destinations: [
+          NavigationDestination(
+            icon: Icon(
+              Icons.home_rounded,
+              color: selectedIndex == 0 ? theme.primaryColor : Colors.grey[400],
             ),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.receipt,
+              color: selectedIndex == 1 ? theme.primaryColor : Colors.grey[400],
+            ),
+            label: 'Transaksi',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.person_rounded,
+              color: selectedIndex == 2 ? theme.primaryColor : Colors.grey[400],
+            ),
+            label: 'Profil',
+          ),
+        ],
+      ),
     );
   }
 }
