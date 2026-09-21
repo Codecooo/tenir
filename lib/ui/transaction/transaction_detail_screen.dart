@@ -196,7 +196,7 @@ class TransactionDetailScreen extends StatelessWidget {
               Text(label),
             ],
           ),
-          Text(DateFormat("dd MMMM yyyy").format(date)),
+          Text(DateFormat("dd MMM yyyy").format(date)),
         ],
       ),
     );
