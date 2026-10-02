@@ -1,3 +1,4 @@
+/// Model for a travel option offered for mountain trips.
 class Travel {
   final String id;
   final String name;
