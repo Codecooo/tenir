@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tenir/models/ticket_model.dart';
+import 'package:tenir/models/mountain.dart';
 
 import 'ticket_detail_page.dart';
 
@@ -195,7 +195,7 @@ class _TicketListPageState extends State<TicketListPage> {
                                   topRight: Radius.circular(12),
                                 ),
                                 child: Image.network(
-                                  gunung.imageUrl,
+                                  gunung.mainImageUrl,
                                   height: 450,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -288,7 +288,7 @@ class _TicketListPageState extends State<TicketListPage> {
                                                 style: TextStyle(fontSize: 12),
                                               ),
                                               Text(
-                                                "Rp ${formatUang(gunung.wniPrice)}",
+                                                "Rp ${formatUang(gunung.indonesianWeekdayPrice)}",
                                                 style: TextStyle(
                                                   color: primaryColor, // ✅ FIXED: primaryColor
                                                   fontWeight: FontWeight.bold,
@@ -307,7 +307,7 @@ class _TicketListPageState extends State<TicketListPage> {
                                                 style: TextStyle(fontSize: 12),
                                               ),
                                               Text(
-                                                "Rp ${formatUang(gunung.wniWeekendPrice)}",
+                                                "Rp ${formatUang(gunung.indonesianWeekendPrice)}",
                                                 style: TextStyle(
                                                   color: primaryColor, // ✅ FIXED: primaryColor
                                                   fontWeight: FontWeight.bold,
@@ -334,7 +334,7 @@ class _TicketListPageState extends State<TicketListPage> {
                                                 style: TextStyle(fontSize: 12),
                                               ),
                                               Text(
-                                                "Rp ${formatUang(gunung.wnaPrice)}",
+                                                "Rp ${formatUang(gunung.internationalWeekdayPrice)}",
                                                 style: TextStyle(
                                                   color: primaryColor, // ✅ FIXED: primaryColor
                                                   fontWeight: FontWeight.bold,
@@ -353,7 +353,7 @@ class _TicketListPageState extends State<TicketListPage> {
                                                 style: TextStyle(fontSize: 12),
                                               ),
                                               Text(
-                                                "Rp ${formatUang(gunung.wnaWeekendPrice)}",
+                                                "Rp ${formatUang(gunung.internationalWeekendPrice)}",
                                                 style: TextStyle(
                                                   color: primaryColor, // ✅ FIXED: primaryColor
                                                   fontWeight: FontWeight.bold,

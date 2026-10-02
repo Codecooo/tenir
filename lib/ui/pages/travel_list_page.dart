@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tenir/models/travel_model.dart';
+import 'package:tenir/models/travel.dart';
+
 import 'travel_detail_page.dart';
 
 class TravelListPage extends StatefulWidget {

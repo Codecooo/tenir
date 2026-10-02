@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tenir/models/ticket_model.dart';
+import 'package:tenir/models/mountain.dart';
 
 class TicketDetailPage extends StatefulWidget {
   final Mountain mountain;
@@ -119,7 +119,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           children: [
             // ===== GAMBAR GUNUNG =====
             Image.network(
-              widget.mountain.imageUrl,
+              widget.mountain.mainImageUrl,
               height: 400,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -578,12 +578,12 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   int _getPrice() {
     if (selectedType == 'WNI') {
       return isWeekend
-          ? widget.mountain.wniWeekendPrice
-          : widget.mountain.wniPrice;
+          ? widget.mountain.indonesianWeekendPrice
+          : widget.mountain.indonesianWeekdayPrice;
     } else {
       return isWeekend
-          ? widget.mountain.wnaWeekendPrice
-          : widget.mountain.wnaPrice;
+          ? widget.mountain.internationalWeekendPrice
+          : widget.mountain.internationalWeekdayPrice;
     }
   }
 }
