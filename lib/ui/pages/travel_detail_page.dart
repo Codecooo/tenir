@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tenir/models/travel.dart';
+import 'package:tenir/models/mountain.dart';
 
 class TravelDetailPage extends StatefulWidget {
-  final Travel travel;
+  final Mountain mountain;
 
   const TravelDetailPage({
     Key? key,
-    required this.travel,
+    required this.mountain,
   }) : super(key: key);
 
   @override
@@ -117,7 +117,7 @@ class _TravelDetailPageState extends State<TravelDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.travel.name,
+                    widget.mountain.name,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class _TravelDetailPageState extends State<TravelDetailPage> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    widget.travel.location,
+                    widget.mountain.location,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[600],
@@ -143,7 +143,7 @@ class _TravelDetailPageState extends State<TravelDetailPage> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    widget.travel.description,
+                    widget.mountain.description,
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey[700],
@@ -584,11 +584,11 @@ class _TravelDetailPageState extends State<TravelDetailPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    int totalHarga = widget.travel.pricePerPerson * jumlahPenumpang;
+                    int totalHarga = (widget.mountain.basePrice * jumlahPenumpang) as int;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Pesan travel ke ${widget.travel.name}\n$jumlahPenumpang Penumpang, $jumlahKendaraan Kendaraan\nTotal: Rp ${formatUang(totalHarga)}',
+                          'Pesan travel ke ${widget.mountain.name}\n$jumlahPenumpang Penumpang, $jumlahKendaraan Kendaraan\nTotal: Rp ${formatUang(totalHarga)}',
                         ),
                       ),
                     );

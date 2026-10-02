@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tenir/models/travel.dart';
+import 'package:tenir/models/mountain.dart';
+import 'package:tenir/utils/format.dart';
 
 import 'travel_detail_page.dart';
 
@@ -16,7 +17,7 @@ class _TravelListPageState extends State<TravelListPage> {
   final Color lightBg = const Color(0xFFF5F5F5);
   final Color cardBg = Colors.white;
 
-  List<Travel> hasilPencarian = [];
+  List<Mountain> hasilPencarian = [];
   TextEditingController controllerSearch = TextEditingController();
   String selectedRegion = 'SEMUA PROVINSI';
 
@@ -29,28 +30,28 @@ class _TravelListPageState extends State<TravelListPage> {
   @override
   void initState() {
     super.initState();
-    hasilPencarian = sampleTravels;
+    hasilPencarian = sampleMountains;
   }
 
   void cariTravel(String teks) {
-    List<Travel> tampung = [];
+    List<Mountain> tampung = [];
 
     if (teks.isEmpty) {
-      tampung = sampleTravels;
+      tampung = sampleMountains;
     } else {
-      for (var travel in sampleTravels) {
-        String namaTravel = travel.name.toLowerCase();
-        if (namaTravel.contains(teks.toLowerCase())) {
-          tampung.add(travel);
+      for (var mountain in sampleMountains) {
+        String namaMountain = mountain.name.toLowerCase();
+        if (namaMountain.contains(teks.toLowerCase())) {
+          tampung.add(mountain);
         }
       }
     }
 
-    List<Travel> hasil = [];
-    for (var travel in tampung) {
+    List<Mountain> hasil = [];
+    for (var mountain in tampung) {
       if (selectedRegion == 'SEMUA PROVINSI' ||
-          travel.region == selectedRegion) {
-        hasil.add(travel);
+          mountain.region == selectedRegion) {
+        hasil.add(mountain);
       }
     }
 
@@ -157,15 +158,14 @@ class _TravelListPageState extends State<TravelListPage> {
                   child: ListView.builder(
                     itemCount: hasilPencarian.length,
                     itemBuilder: (context, index) {
-                      var travel = hasilPencarian[index];
-
+                      var mountain = hasilPencarian[index];
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  TravelDetailPage(travel: travel),
+                                  TravelDetailPage(mountain: mountain),
                             ),
                           );
                         },
@@ -218,7 +218,7 @@ class _TravelListPageState extends State<TravelListPage> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            travel.name,
+                                            mountain.name,
                                             style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
@@ -230,7 +230,7 @@ class _TravelListPageState extends State<TravelListPage> {
 
                                     // ===== LOKASI =====
                                     Text(
-                                      travel.location,
+                                      mountain.location,
                                       style: TextStyle(
                                         color: Colors.grey[600],
                                         fontSize: 13,
@@ -252,7 +252,7 @@ class _TravelListPageState extends State<TravelListPage> {
                                           ),
                                         ),
                                         Text(
-                                          'Rp ${formatUang(travel.pricePerPerson)}',
+                                          rupiah(mountain.basePrice),
                                           style: TextStyle(
                                             color: primaryColor,
                                             fontWeight: FontWeight.bold,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tenir/ui/pages/ticket_list_page.dart';
 import 'package:tenir/ui/pages/logistik/logistik_page.dart';
+import 'package:tenir/ui/pages/travel_list_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -411,6 +412,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const LogistikPage()),
+              );
+            } else if (title == 'Travel & Objek') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TravelListPage()),
               );
             } else {
               ScaffoldMessenger.of(context)
