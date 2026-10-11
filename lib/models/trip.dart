@@ -5,7 +5,6 @@ class Trip {
   final DateTime startDate;
   final DateTime endDate;
   final String mountainId;
-  final int participantCount;
 
   Trip({
     required this.id,
@@ -13,6 +12,5 @@ class Trip {
     required this.startDate,
     required this.endDate,
     required this.mountainId,
-    required this.participantCount,
   });
 }

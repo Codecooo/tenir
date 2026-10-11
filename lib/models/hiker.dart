@@ -7,6 +7,9 @@ class Hiker {
   final String identityNumber; // NIK / Passport
   final String phoneNumber;
   final String emergencyContactPhone;
+  final String emergencyContactName;
+  final Gender? gender;
+  final String? userId; // ID user yang terkait dengan pendaki ini, jika ada
   final String? medicalNotes;
 
   Hiker({
@@ -15,7 +18,12 @@ class Hiker {
     required this.lastName,
     required this.identityNumber,
     required this.phoneNumber,
+    required this.emergencyContactName,
     required this.emergencyContactPhone,
+    this.gender,
+    this.userId,
     this.medicalNotes,
   });
 }
+
+enum Gender { male, female, other }

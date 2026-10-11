@@ -12,7 +12,7 @@ class Mountain {
   final int internationalWeekendPrice;
   final double height;
   final List<String> images;
-  final double basePrice;
+  final DifficultyLevel difficultyLevel;
   final AlertLevel? alertLevel;
   bool isFavorite;
   bool isVolcanicActive;
@@ -25,7 +25,7 @@ class Mountain {
     required this.mainImageUrl,
     required this.description,
     required this.images,
-    required this.basePrice,
+    required this.difficultyLevel,
     this.region = '',
     this.indonesianWeekdayPrice = 0,
     this.internationalWeekdayPrice = 0,
@@ -43,6 +43,12 @@ enum AlertLevel {
   awas,
 }
 
+enum DifficultyLevel {
+  easy,
+  moderate,
+  expert,
+}
+
 final List<Mountain> sampleMountains = [
   Mountain(
     id: '2',
@@ -50,7 +56,7 @@ final List<Mountain> sampleMountains = [
     location: 'Perhutani',
     height: 0,
     images: const [],
-    basePrice: 0,
+    difficultyLevel: DifficultyLevel.easy,
     indonesianWeekdayPrice: 15000,
     internationalWeekdayPrice: 150000,
     indonesianWeekendPrice: 25000,
@@ -65,7 +71,7 @@ final List<Mountain> sampleMountains = [
     location: 'Jawa Timur',
     height: 0,
     images: const [],
-    basePrice: 0,
+    difficultyLevel: DifficultyLevel.expert,
     indonesianWeekdayPrice: 50000,
     internationalWeekdayPrice: 300000,
     indonesianWeekendPrice: 75000,
@@ -80,7 +86,7 @@ final List<Mountain> sampleMountains = [
     location: 'Jawa Timur',
     height: 0,
     images: const [],
-    basePrice: 0,
+    difficultyLevel: DifficultyLevel.moderate,
     indonesianWeekdayPrice: 40000,
     internationalWeekdayPrice: 250000,
     indonesianWeekendPrice: 60000,
@@ -95,7 +101,8 @@ final List<Mountain> sampleMountains = [
     location: 'Jawa Tengah',
     height: 0,
     images: const [],
-    basePrice: 0,
+    difficultyLevel: DifficultyLevel.expert,
+    alertLevel: AlertLevel.waspada,
     indonesianWeekdayPrice: 35000,
     internationalWeekdayPrice: 220000,
     indonesianWeekendPrice: 50000,
@@ -110,7 +117,7 @@ final List<Mountain> sampleMountains = [
     location: 'Jawa Tengah',
     height: 0,
     images: const [],
-    basePrice: 0,
+    difficultyLevel: DifficultyLevel.moderate,
     indonesianWeekdayPrice: 30000,
     internationalWeekdayPrice: 180000,
     indonesianWeekendPrice: 45000,
